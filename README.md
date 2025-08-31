@@ -1,222 +1,220 @@
-# FHEVM Privacy DApp - Technical Overview
 
-## Project Introduction
 
-This is a **Privacy-Preserving Decentralized Application (DApp)** built on Ethereum's Sepolia testnet, leveraging **Zama's Fully Homomorphic Encryption Virtual Machine (FHEVM)** technology. The DApp demonstrates how blockchain applications can maintain complete privacy for sensitive data while preserving transparency and decentralization.
+这是一款基于以太坊 Sepolia 测试网构建的隐私保护去中心化应用 (DApp)，利用了 Zama 的完全同态加密虚拟机 (FHEVM) 技术。该 DApp 展示了区块链应用如何在保持透明性和去中心化的同时，保护敏感数据的完全隐私。
 
-## Core Technology Stack
+## 核心技术栈
 
-### Frontend Architecture
-- **React 18** with TypeScript for type-safe development
-- **ethers.js v6** for Ethereum blockchain interaction
-- **MetaMask integration** using EIP-6963 standard for wallet detection
-- **FHEVM SDK** integration for homomorphic encryption operations
-- **Responsive CSS** with modern UI components
+### 前端架构
+- **React 18** 使用 TypeScript 进行类型安全开发
+- **ethers.js v6** 用于以太坊区块链交互
+- **MetaMask 集成** 使用 EIP-6963 标准进行钱包检测
+- **FHEVM SDK** 集成用于同态加密操作
+- **响应式 CSS** 和现代 UI 组件
 
-### Smart Contract Layer
-- **Solidity 0.8.28** with advanced encryption features
-- **Zama FHEVM** protocol for fully homomorphic encryption
-- **MockFHECounter** contract for testing encrypted operations
-- **Hardhat development environment** with comprehensive testing suite
+### 智能合约层
+- **Solidity 0.8.28** 具有高级加密功能
+- **Zama FHEVM** 协议用于完全同态加密
+- **MockFHECounter** 用于测试加密操作的合约
+- **Hardhat 开发环境** 带有全面的测试套件
 
-### Blockchain Infrastructure
-- **Sepolia Testnet** deployment for public testing
-- **Multiple RPC endpoint support** with automatic fallback mechanism
-- **Contract address**: `0x3df5bbE3F4F3d71E984cfc9Cf59422103b035980`
-- **Chain ID**: 11155111 (Sepolia)
+### 区块链基础设施
+- **Sepolia Testnet** 部署进行公开测试
+- **支持多个 RPC 端点**，具有自动回退机制
+-**合约地址**: `0x3df5bbE3F4F3d71E984cfc9Cf59422103b035980`
+- **连锁 ID**：11155111（Sepolia）
 
-## Key Features
+## 主要特点
 
-### 1. Privacy-First Design
+### 1. 隐私优先的设计
 ```solidity
-// Encrypted counter operations
-function increment(bytes calldata encryptedValue) external {
-    euint32 value = TFHE.asEuint32(encryptedValue);
-    counter = TFHE.add(counter, value);
+// 加密计数器操作
+函数增量（字节调用数据加密值）外部{
+    euint32 值 = TFHE.asEuint32(encryptedValue);
+    计数器 = TFHE.添加（计数器，值）；
 }
 ```
-- All sensitive data remains encrypted on-chain
-- Homomorphic operations allow computation on encrypted data
-- Zero-knowledge proofs ensure data integrity without revealing contents
+- 所有敏感数据均在链上加密
+- 同态运算允许对加密数据进行计算
+- 零知识证明确保数据完整性，且不泄露内容
 
-### 2. Advanced Wallet Integration
+### 2. 高级钱包集成
 ```typescript
-// EIP-6963 compliant wallet detection
-const providers = await detectEip6963Providers();
-const metaMaskProvider = providers.find(p => p.info.name === 'MetaMask');
+// 符合 EIP-6963 的钱包检测
+const 提供者 = 等待detectEip6963Providers();
+const metaMaskProvider = 提供者。查找（p => p.info.name === 'MetaMask'）；
 ```
-- Automatic wallet detection using modern standards
-- Support for multiple wallet providers
-- Seamless network switching and account management
+- 使用现代标准自动检测钱包
+- 支持多个钱包提供商
+- 无缝网络切换和帐户管理
 
-### 3. Robust RPC Failover System
+### 3. 强大的 RPC 故障转移系统
 ```typescript
-// Automatic RPC fallback mechanism
-if (bytecode === '0x' && chainId === 11155111) {
-  console.log('🔄 Using fallback RPC for Sepolia...');
-  const fallbackProvider = new ethers.JsonRpcProvider(
-    "https://ethereum-sepolia-rpc.publicnode.com"
-  );
-  provider = fallbackProvider;
+// 自动 RPC 回退机制
+如果（字节码 === '0x' && chainId === 11155111）{
+  console.log('🔄 使用 Sepolia 的后备 RPC...');
+  const fallbackProvider = new ethers.JsonRpcProvider（
+    “https://ethereum-sepolia-rpc.publicnode.com”
+  （此处似有缺失，请提供更正后的文本）。
+  提供者= fallbackProvider;
 }
 ```
-- Multiple RPC endpoints for reliability
-- Automatic failover when primary RPC fails
-- Real-time connection status monitoring
+- 多个 RPC 端点确保可靠性
+- 主 RPC 发生故障时自动进行故障转移
+- 实时连接状态监控
 
-### 4. FHEVM Mock System
+### 4. FHEVM 模拟系统
 ```typescript
-// Mock FHEVM for development and testing
+// 模拟 FHEVM 用于开发和测试
 const mockInput = {
-  add32: (value: number) => mockInput,
-  encrypt: async () => ({
-    handles: [mockHandle],
-    inputProof: mockProof
+  add32: (值：数字) => mockInput，
+  加密：异步（）=>（{
+    句柄：[mockHandle]，
+    输入证明：模拟证明
   })
 };
 ```
-- Development-friendly mock system
-- Compatible interface with production FHEVM
-- Simplified testing without complex cryptographic setup
+- 开发友好的模拟系统
+- 与生产 FHEVM 兼容的接口
+- 简化测试，无需复杂的加密设置
 
-## Architecture Deep Dive
+## 架构深度探究
 
-### Component Structure
+### 组件结构
 ```
-src/
-├── components/fhevm/FHECounterDemo.tsx    # Main interaction component
-├── providers/WalletProvider.tsx           # Wallet state management
-├── providers/FHEVMProvider.tsx           # FHEVM integration
-├── hooks/useMetaMaskProvider.tsx         # MetaMask hook
-├── hooks/useEip6963.tsx                  # EIP-6963 provider detection
-└── fhevm/internal/fhevm.ts               # Core FHEVM functionality
+源码/
+│ │ components/fhevm/FHECounterDemo.tsx # 主交互组件
+═──providers/WalletProvider.tsx # 钱包状态管理
+═──providers/FHEVMProvider.tsx # FHEVM 集成
+│ │ hooks/useMetaMaskProvider.tsx # MetaMask 钩子
+│ │ hooks/useEip6963.tsx # EIP-6963 提供商检测
+└── fhevm/internal/fhevm.ts # 核心 FHEVM 功能
 ```
 
-### State Management Flow
-1. **Wallet Detection** → EIP-6963 providers scan
-2. **Network Validation** → Sepolia chain verification  
-3. **FHEVM Initialization** → SDK loading and setup
-4. **Contract Interaction** → Encrypted operations
-5. **Result Processing** → Decryption and display
+### 状态管理流程
+1. **钱包检测** → EIP-6963 提供商扫描
+2. **网络验证** → Sepolia 链验证  
+3. **FHEVM 初始化** → SDK 加载和设置
+4. **合约交互** → 加密操作
+5. **结果处理** → 解密并显示
 
-### Error Handling & Resilience
+### 错误处理和恢复
 ```typescript
-// Comprehensive error handling
-try {
+// 全面的错误处理
+尝试 {
   const result = await contract.increment(encryptedInput);
-} catch (error) {
-  if (error.code === '0xb9688461') {
-    // Handle FHEVM validation error
-    console.log('Invalid encrypted input format');
+} 捕获（错误）{
+  如果（错误代码 === '0xb9688461'）{
+    // 处理 FHEVM 验证错误
+    console.log('无效的加密输入格式');
   }
 }
 ```
 
-## Privacy Features Explained
+## 隐私功能说明
 
-### Fully Homomorphic Encryption (FHE)
-- **Confidential Computations**: Perform calculations on encrypted data
-- **Input Privacy**: User inputs remain encrypted throughout the process
-- **Result Privacy**: Only authorized parties can decrypt results
-- **Network Security**: No sensitive data exposed on public blockchain
+### 完全同态加密（FHE）
+- **机密计算**：对加密数据执行计算
+- **输入隐私**：用户输入在整个过程中保持加密
+- **结果隐私**：只有授权方才能解密结果
+- **网络安全**：公共区块链上不会暴露任何敏感数据
 
-### Encryption Workflow
-1. **Client-Side Encryption**: User data encrypted in browser
-2. **Proof Generation**: Zero-knowledge proofs created for validity
-3. **On-Chain Processing**: Smart contract operates on encrypted data
-4. **Selective Decryption**: Results decrypted only when authorized
+### 加密工作流程
+1. **客户端加密**：用户数据在浏览器中加密
+2. **证明生成**：为有效性而创建的零知识证明
+3. **链上处理**：智能合约对加密数据进行操作
+4. **选择性解密**：仅在授权时解密结果
 
-## Deployment Information
+## 部署信息
 
-### Contract Deployment
-- **Network**: Ethereum Sepolia Testnet
-- **Contract Address**: `0x3df5bbE3F4F3d71E984cfc9Cf59422103b035980`
-- **Deployment Mnemonic**: `depth bubble bulb earn maximum real wire crop pet volume time flame`
-- **Gas Optimization**: 8 gwei gas price for cost efficiency
+### 合约部署
+- **网络**：以太坊 Sepolia 测试网
+- **合约地址**: `0x3df5bbE3F4F3d71E984cfc9Cf59422103b035980`
+- **部署助记符**：`深度气泡灯泡获得最大真实线材作物宠物体积时间火焰`
+- **Gas 优化**：8 gwei Gas 价格，提高成本效益
 
-### RPC Endpoints
-- **Primary**: MetaMask default RPC
-- **Fallback**: `https://ethereum-sepolia-rpc.publicnode.com`
-- **Alternative**: `https://sepolia.drpc.org`
-- **Explorer**: https://sepolia.etherscan.io
+### RPC 端点
+- **主要**：MetaMask 默认 RPC
+-**回退**：`https://ethereum-sepolia-rpc.publicnode.com`
+-**替代**：`https://sepolia.drpc.org`
+- **浏览器**: https://sepolia.etherscan.io
 
-## User Interface Features
+## 用户界面功能
 
-### Interactive Counter Demo
-- **Real-time Status**: Live contract state monitoring
-- **Encrypted Operations**: Increment/decrement with privacy
-- **Network Indicators**: Connection and chain status display
-- **Error Feedback**: User-friendly error messages and recovery
+### 交互式计数器演示
+- **实时状态**：实时监控合约状态
+- **加密操作**：隐私增加/减少
+- **网络指示灯**：连接和链路状态显示
+- **错误反馈**：用户友好的错误消息和恢复
 
-### Wallet Integration
-- **One-Click Connect**: Seamless MetaMask connection
-- **Network Switching**: Automatic Sepolia network setup
-- **Account Management**: Multi-account support
-- **Transaction Tracking**: Real-time transaction status
+### 钱包集成
+- **一键连接**：无缝 MetaMask 连接
+- **网络切换**：自动 Sepolia 网络设置
+- **账户管理**：多账户支持
+- **交易追踪**：实时交易状态
 
-## Development Workflow
+## 开发工作流程
 
-### Local Development
+### 本地开发
 ```bash
-# Install dependencies
-npm install
+# 安装依赖项
+npm 安装
 
-# Compile smart contracts
-npm run compile
+# 编译智能合约
+npm 运行编译
 
-# Start local development server  
-npm start
+# 启动本地开发服务器  
+npm 启动
 
-# Run comprehensive tests
-npm test
+# 运行综合测试
+npm 测试
 ```
 
-### Testing Strategy
-- **Unit Tests**: Individual component testing
-- **Integration Tests**: End-to-end workflow validation
-- **Contract Tests**: Smart contract functionality verification
-- **Security Tests**: Encryption and privacy validation
+### 测试策略
+- **单元测试**：单个组件测试
+- **集成测试**：端到端工作流验证
+- **合约测试**：智能合约功能验证
+- **安全测试**：加密和隐私验证
 
-## Security Considerations
+## 安全注意事项
 
-### Encryption Security
-- **TFHE Protocol**: Military-grade homomorphic encryption
-- **Key Management**: Secure client-side key generation
-- **Proof Verification**: Cryptographic proof validation
-- **Access Control**: Role-based permission system
+### 加密安全
+- **TFHE 协议**：军用级同态加密
+- **密钥管理**：安全客户端密钥生成
+- **证明验证**：加密证明验证
+- **访问控制**：基于角色的权限系统
 
-### Smart Contract Security  
-- **Access Modifiers**: Proper function visibility controls
-- **Input Validation**: Comprehensive parameter checking
-- **Reentrancy Protection**: Guard against attack vectors
-- **Gas Optimization**: Efficient computation patterns
+### 智能合约安全  
+- **访问修饰符**：适当的函数可见性控制
+- **输入验证**：全面的参数检查
+- **可重入保护**：防范攻击媒介
+- **Gas 优化**：高效的计算模式
 
-## Future Enhancements
+## 未来的增强功能
 
-### Planned Features
-- **Multi-Chain Support**: Extend to other FHEVM-compatible networks
-- **Advanced Encryption**: Support for different data types (euint64, euint128)
-- **Batch Operations**: Multiple encrypted operations in single transaction
-- **Decryption Management**: Enhanced key sharing and access control
+### 计划的功能
+- **多链支持**：扩展到其他兼容 FHEVM 的网络
+- **高级加密**：支持不同的数据类型（euint64、euint128）
+- **批量操作**：单笔交易中的多个加密操作
+- **解密管理**：增强密钥共享和访问控制
 
-### Performance Optimizations
-- **SDK Caching**: Reduce initialization overhead
-- **RPC Pooling**: Distribute load across multiple endpoints  
-- **State Batching**: Minimize unnecessary re-renders
-- **Lazy Loading**: Component-based code splitting
+### 性能优化
+- **SD​​K 缓存**：减少初始化开销
+- **RPC 池**：在多个端点之间分配负载  
+- **状态批处理**：最大限度地减少不必要的重新渲染
+- **延迟加载**：基于组件的代码拆分
 
-## Technical Innovations
+## 技术创新
 
-This DApp represents several cutting-edge developments:
+这款 DApp 体现了几项尖端发展：
 
-1. **First-Class Privacy**: Native encryption without compromising functionality
-2. **Seamless UX**: Privacy features transparent to end users  
-3. **Developer-Friendly**: Mock systems enable rapid development
-4. **Production-Ready**: Robust error handling and fallback mechanisms
-5. **Standards Compliant**: Modern wallet integration standards (EIP-6963)
+1. **一流的隐私**：原生加密，不影响功能
+2. **无缝用户体验**：隐私功能对最终用户透明  
+3. **开发者友好**：模拟系统支持快速开发
+4. **生产就绪**：强大的错误处理和回退机制
+5. **符合标准**：现代钱包集成标准（EIP-6963）
 
-## Conclusion
+＃＃ 结论
 
-This FHEVM Privacy DApp demonstrates the future of blockchain applications where privacy and transparency coexist. By leveraging fully homomorphic encryption, users can interact with smart contracts while keeping their sensitive data completely private, opening new possibilities for financial, healthcare, and identity applications that require both blockchain benefits and data confidentiality.
+这款 FHEVM 隐私 DApp 展现了隐私与透明并存的区块链应用的未来。通过利用完全同态加密，用户可以与智能合约交互，同时确保敏感数据完全私密，这为需要兼顾区块链优势和数据保密性的金融、医疗保健和身份识别应用开辟了新的可能性。
 
-The combination of modern React architecture, robust smart contract design, and innovative encryption technology creates a foundation for the next generation of privacy-preserving decentralized applications.
+现代 React 架构、强大的智能合约设计和创新的加密技术的结合为下一代保护隐私的去中心化应用程序奠定了基础。
