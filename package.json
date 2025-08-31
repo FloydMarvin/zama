@@ -1,0 +1,22 @@
+{
+  "name": "fhevm-counter-project",
+  "version": "1.0.0",
+  "description": "FHEVM Counter Contract with Hardhat",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:localhost": "hardhat run scripts/deploy.js --network localhost",
+    "test": "hardhat test",
+    "node": "hardhat node"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.26.0",
+    "ethers": "^6.15.0"
+  },
+  "dependencies": {
+    "@fhevm/solidity": "^0.4.2",
+    "dotenv": "^16.4.5"
+  }
+}

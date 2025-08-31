@@ -1,0 +1,67 @@
+{
+  "contractAddress": "0x57cB84efC350C5Cab5E16779e4E388Aa1166BCf9",
+  "contractName": "SimpleFHECounter",
+  "deployerAddress": "0x6800aE8E5694bBd3512BCAAe35CFf0a9EB73b35F",
+  "mnemonic": "good awful car clown twelve stomach search crouch abuse fire melt old",
+  "network": "sepolia",
+  "chainId": 11155111,
+  "deploymentTime": "2025-08-25T01:40:22.805Z",
+  "etherscanUrl": "https://sepolia.etherscan.io/address/0x57cB84efC350C5Cab5E16779e4E388Aa1166BCf9",
+  "balance": "0.15",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "inputEuint32",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "inputProof",
+          "type": "bytes"
+        }
+      ],
+      "name": "increment",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "inputEuint32",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "inputProof",
+          "type": "bytes"
+        }
+      ],
+      "name": "decrement",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCount",
+      "outputs": [
+        {
+          "internalType": "euint32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

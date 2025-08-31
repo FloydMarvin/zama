@@ -1,0 +1,15 @@
+{
+  "contractAddress": "0xd0f6dFc36F53494aec02A039A55FE2ACf1566906",
+  "deployerAddress": "0xaDEd6Ca4230dEA690EDf96e126f8e67b7e72Dd3b",
+  "mnemonic": "depth bubble bulb earn maximum real wire crop pet volume time flame",
+  "network": "sepolia",
+  "chainId": 11155111,
+  "deploymentTime": "2025-08-24T20:24:23.272Z",
+  "etherscanUrl": "https://sepolia.etherscan.io/address/0xd0f6dFc36F53494aec02A039A55FE2ACf1566906",
+  "note": "Mock deployment - contract address generated deterministically",
+  "contractName": "FHE Privacy Counter",
+  "hasEncryptedOperations": true,
+  "canAmplify": true,
+  "canDampen": true,
+  "supportsDecryption": true
+}
